@@ -40,8 +40,6 @@ for i in range(len(grid)):
 
                 freqs[grid[i][j]] = [(j,i)]
 
-
-
 part1Antinodes = set()
 for freq in freqs.keys():
     L = freqs[freq]
@@ -58,9 +56,6 @@ for freq in freqs.keys():
 
 
 part1 = len(part1Antinodes)
-
-
-
 
 part2Antinodes = set()
 for freq in freqs.keys():
