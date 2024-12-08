@@ -5,21 +5,7 @@ def display():
     for line in grid:
         print("".join(line))
     input()
-
-def hcf(n1, n2): 
-    n1,n2 = abs(n1),abs(n2)
-    if n1 != 0 and n2 != 0:
-        while n2: 
-            n1, n2 = n2, n1 % n2 
-        return n1
-    else:
-        return 0
     
-#For simplifying the difference vectors between two antennae
-def simplify(t):
-    if (k:=hcf(*t)) != 0:
-        return (int(t[0]/k),int(t[1]/k))
-
 def isInGrid(pPoint):
     return (0 <= pPoint[0] < len(grid[0]) and 0 <= pPoint[1] < len(grid))
 
@@ -63,8 +49,8 @@ for freq in freqs.keys():
     part2Antinodes |= set(L)
     for a in range(len(L)-1):
         for b in range(a+1,len(L)):
-            va = simplify(subtracter(L[a],L[b]))
-            vb = simplify(subtracter(L[b],L[a]))
+            va = subtracter(L[a],L[b])
+            vb = subtracter(L[b],L[a])
 
             currentNode = adder(L[a],va)
   
