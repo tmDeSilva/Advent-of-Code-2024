@@ -42,7 +42,7 @@ freespace.append((index,index))
 
 blocks = blocks[::-1]
 placedBlocks = []
-def f(pBlocks, pSpaces, placed):
+def moveBlock(pBlocks, pSpaces, placed):
     found = False
     ID, blockStart, blockEnd = pBlocks[0]
     for i in range(len(pSpaces)):
@@ -70,7 +70,7 @@ def f(pBlocks, pSpaces, placed):
 
 
 while len(blocks) != 0:
-    blocks, freespace, placedBlocks = f(blocks, freespace, placedBlocks)
+    blocks, freespace, placedBlocks = moveBlock(blocks, freespace, placedBlocks)
 
 part2 = 0
 
