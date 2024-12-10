@@ -1,84 +1,47 @@
-line = list(map(int,open("text.txt","r").read().strip()))
+import numpy as np
 
-part1Array = []
+DIRS = [(1,0),(0,1),(-1,0),(0,-1)]
+grid =  [list(map(int,line.strip())) for line in open("text.txt","r").readlines()]
+trailheads = []
 
-blocks = []
-freespace = []
+for i in range(len(grid)):
+    for j in range(len(grid)):
+        if grid[i][j] == 0:
+            trailheads.append(np.array((j,i)))
 
-index = 0
-iID = 0
-for i in range(len(line)):
-    iRange = (index,index+line[i])
-    if i % 2 == 1:
-        freespace.append(iRange)
-        toAdd = -1
-    else:
-        blocks.append((iID, *iRange))
-        toAdd = iID
-        iID += 1
+def inGrid(x,y):
+    return 0 <= x < len(grid[0]) and 0 <= y < len(grid[1])
 
-    index += line[i]
-    part1Array += line[i] * [toAdd]
+def getPaths(start):
+    x,y = start
 
-freespaceCounter = 0
-fileCounter = len(part1Array) - 1
+    count = 0
+    res = set()
+    current = grid[y][x]
+    if current == 9:
+        return {(x,y)}, 1 
 
-while freespaceCounter < fileCounter:
-    while part1Array[fileCounter] == -1:
-        fileCounter -= 1
-    if part1Array[freespaceCounter] == -1:
-        part1Array[freespaceCounter] = part1Array[fileCounter]
-        part1Array[fileCounter] = -1
-
-    freespaceCounter += 1
-
-part1 = 0
-for i in range(len(part1Array)):
-    if part1Array[i] != -1:
-        part1 += i * part1Array[i]
-
-
-freespace.append((index,index))
-
-blocks = blocks[::-1]
-placedBlocks = []
-def moveBlock(pBlocks, pSpaces, placed):
     found = False
-    ID, blockStart, blockEnd = pBlocks[0]
-    for i in range(len(pSpaces)):
-        start,end = pSpaces[i]
-        if end - start >= blockEnd - blockStart and blockStart >= end:
-            placed.append((ID,start,start + blockEnd - blockStart))
-            pBlocks.pop(0)
-            pSpaces[i] = (start + blockEnd - blockStart, end)
-            for j in range(len(pSpaces) - 1, -1,-1):
-
-                if blockEnd == pSpaces[j][0]:
-                    pSpaces.insert(j+1,(pSpaces[j-1][0],pSpaces[j][1]))
-                    pSpaces.pop(j)
-                    pSpaces.pop(j-1)
-                    
-                    break
-            
-            found = True
-            break
-
+    for delta in [np.array(iDir) for iDir in DIRS]:
+        newPos = start + delta
+        newX, newY = newPos
+        if inGrid(newX,newY):
+            if grid[newY][newX] == current + 1:
+                found = True
+                data = getPaths(newPos)
+                res |= data[0]
+                count += data[1]
+                
     if not found:
-        placed.append(pBlocks.pop(0))
+        return set(), 0
+    
+    return res, count
 
-    return pBlocks, pSpaces,placed
-
-
-while len(blocks) != 0:
-    blocks, freespace, placedBlocks = moveBlock(blocks, freespace, placedBlocks)
-
+part1 = 0 
 part2 = 0
+for trailhead in trailheads:
+    result = getPaths(trailhead)
+    part1 += len(result[0])
+    part2 += result[1]
 
-def t(n):
-    return n*(n+1)/2
-
-for a,b,c in placedBlocks:
-    part2 += a * (t(c-1)-t(b-1))
-
-part2 = int(part2)
-print(f"Part 1: {part1}, Part 2: {part2}")
+print(f"Part 1: {part1}, Part 2: {part2}.")
