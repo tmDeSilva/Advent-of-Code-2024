@@ -8,7 +8,7 @@ def getLength(pStone):
     return res
 
 from functools import lru_cache
-@lru_cache (maxsize = 1024)
+@lru_cache (maxsize = None)
 def getStones(pStone, pTarget, pCount = 0):
     count = 0
     if pCount == pTarget:
