@@ -40,10 +40,7 @@ def search(pStart):
                 paths.append(path)
             else:
                 break
-
-        if pos in seen:
-            continue
-
+                
         seen.add((pos,currentDir))
 
         for iDir in dirs - {tuple(-np.array(currentDir))}:
