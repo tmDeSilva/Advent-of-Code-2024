@@ -75,8 +75,8 @@ for i in range(len(path) - 1):
                     skipTo = (px + dx, py + sign*dy)
 
                     if skipTo in pathDict.keys():
-                        distance = pathDict[skipTo] - i - iR
-                        if distance >= 100:
+                        timeSaved = pathDict[skipTo] - i - iR
+                        if timeSaved >= 100:
                             if iR == 2:
                                 part1 += 1
                             part2 += 1
