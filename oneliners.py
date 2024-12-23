@@ -37,3 +37,7 @@ print(sum([(f := lambda start, paths = 0: 1 if (val := grid[start[1]][start[0]])
 
 #Day 11 part 1
 print(sum([f(number, 25) for number in numbers])) if (numbers := list(map(int, open("text.txt").read().strip().split()))) and (getLen := lambda x, power = 1: power if 10 ** power > x else getLen(x,power+1)) and (f := lambda rock, blinks: 1 if blinks == 0 else f(1,blinks - 1) if rock == 0 else f(rock * 2024, blinks - 1) if (length := getLen(rock)) % 2 == 1 else f(rock // (10 ** (length//2)),blinks - 1) + f(rock % (10 ** (length//2)), blinks - 1)) is not None else None
+
+#Day 13 part 1, part 2
+(re := __import__("re")), print(sum([3 * A // det  + B // det if (A := px * by - py * bx) % (det := ax * by - bx * ay) == 0 and (B := - px * ay + py * ax) % det == 0 and A // det <= 100 and B // det <= 100 else 0 for ax,ay,bx,by,px,py in machineData])) if (machineData := [list(map(int,re.findall("(\d+)",line))) for line in open("text.txt","r").read().split("\n\n")]) is not None else None
+(re := __import__("re")), print(sum([3 * A // det  + B // det if (A := px * by - py * bx) % (det := ax * by - bx * ay) == 0 and (B := - px * ay + py * ax) % det == 0 else 0 for ax,ay,bx,by,px,py in machineData])) if (k := 10000000000000) and (machineData := [[machine[i] if i < 4 else machine[i] + k for i in range(len(machine))] if (machine := list(map(int,re.findall("(\d+)",line)))) is not None else [] for line in open("text.txt","r").read().split("\n\n")]) is not None else None
