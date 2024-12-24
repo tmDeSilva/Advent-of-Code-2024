@@ -124,5 +124,5 @@ for bit in range(zBitLength - 1):
         A,B, outWire, C, newCarry, wireToOp = OpBitwiseAdd(xKey, yKey, carry)
         carryWires.append(newCarry)
 
-part2 = ",".join(sorted(set(swapped)))
+part2 = ",".join(sorted(swapped))
 print(f"Part 1: {part1}, Part 2: {part2}.")
